@@ -6,4 +6,3 @@ class DjangoTicketsConfig(AppConfig):
 
     def ready(self, *args, **kwargs):
         import django_tickets.signals
-        print('ready worked')
