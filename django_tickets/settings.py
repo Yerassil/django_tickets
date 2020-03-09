@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django_tickets',
     'rest_framework',
     'corsheaders',
+    'rest_framework.authtoken',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -125,3 +126,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'django_tickets.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}

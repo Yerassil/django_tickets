@@ -1,5 +1,5 @@
 import factory
-from ..models import User, Ticket
+from ..models import Ticket, User
 
 
 class UserFactory(factory.django.DjangoModelFactory):
