@@ -52,6 +52,23 @@ class TicketViewSet(viewsets.ModelViewSet):
             status=status.HTTP_200_OK
         )
 
+    @action(detail=True, methods=['post'])
+    def changes(self, request, pk=None):
+        ticket = self.get_object()
+        ticket.request_changes(request.user)
+        return Response(
+            self.get_serializer(ticket).data,
+            status=status.HTTP_200_OK
+        )
+
+    @action(detail=True, methods=['post'])
+    def close(self, request, pk=None):
+        ticket = self.get_object()
+        ticket.close(request.user)
+        return Response(
+            self.get_serializer(ticket).data,
+            status=status.HTTP_200_OK
+        )
 
 # class UserViewSet(viewsets.ReadOnlyModelViewSet):
 #     #  this viewset automatically provides 'list' and 'detail' actions.
