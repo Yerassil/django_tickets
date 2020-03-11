@@ -6,18 +6,18 @@ from .models import User, Ticket, Approval
 
 @admin.register(User)
 class UserAdmin(UserAdmin):
-    list_display = ['username']
+    list_display = ['id', 'username']
 
 
 @admin.register(Ticket)
 class TicketAdmin(admin.ModelAdmin):
     list_display = [
-        'author', 'title', 'date_created'
+        'author', 'title', 'date_created', 'description'
     ]
 
 
 @admin.register(Approval)
 class ApprovalAdmin(admin.ModelAdmin):
     list_display = [
-        'user', 'ticket', 'approved'
+        'approver', 'ticket', 'is_approved'
     ]

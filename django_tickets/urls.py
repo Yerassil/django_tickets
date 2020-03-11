@@ -15,10 +15,25 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .api import api_urls
+
+from .views import TicketViewSet, ApproverViewSet
+from rest_framework_extensions.routers import ExtendedSimpleRouter
+from rest_framework.authtoken import views
+
+
+router = ExtendedSimpleRouter()
+router.register(
+    'api/tickets',
+    TicketViewSet
+).register(
+    'approvers',
+    ApproverViewSet,
+    basename='tickets-approvers',
+    parents_query_lookups=['tickets_for_approval'])
 
 urlpatterns = [
+    path('', include(router.urls)),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    path('api/', include(api_urls)),
+    path('api/auth/', views.obtain_auth_token)
 ]

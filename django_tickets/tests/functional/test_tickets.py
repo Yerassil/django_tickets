@@ -23,11 +23,9 @@ def test_ticket_pending_approvers_ok(db, ticket_factory, user_factory):
     approvers = user_factory.create_batch(3)
     for user in approvers:
         ticket.approvers.add(user)
-    assert len(ticket.pending_approval()) == 3
-    ticket.approve(ticket.pending_approval()[0].user)
-    assert len(ticket.pending_approval()) == 2
-    ticket.approve(ticket.pending_approval()[0].user)
-    assert len(ticket.pending_approval()) == 1
+    assert len(ticket.pending_approvers()) == 3
+    ticket.approve(approvers[0])
+    assert len(ticket.pending_approvers()) == 2
 
 
 def test_ticket_inprogress_ok(db, ticket_factory):
@@ -66,6 +64,7 @@ def test_ticket_closed_ok(db, ticket_factory, user_factory):
 def test_ticket_approval_not_by_approver_permision_denied(
     db, ticket_factory, user_factory
 ):
+    #  a user cannot approve unless the user is an approver
     ticket = ticket_factory.pending()
     user = user_factory()
     with pytest.raises(PermissionDenied):
@@ -75,6 +74,8 @@ def test_ticket_approval_not_by_approver_permision_denied(
 def test_ticket_completion_not_by_assignee_permision_denied(
     db, ticket_factory, user_factory
 ):
+    #  a user cannot change ticket status to completed
+    #  unless the user is an assignee
     ticket = ticket_factory.in_progress()
     user = user_factory()
     with pytest.raises(PermissionDenied):
@@ -84,6 +85,8 @@ def test_ticket_completion_not_by_assignee_permision_denied(
 def test_ticket_changes_requested_by_not_author_permission_denied(
     db, ticket_factory, user_factory
 ):
+    #  a user cannot request changes
+    #  unless the user is the author of the ticket
     ticket = ticket_factory.completed()
     user = user_factory()
     with pytest.raises(PermissionDenied):
@@ -93,6 +96,8 @@ def test_ticket_changes_requested_by_not_author_permission_denied(
 def test_ticket_close_not_by_superuser_permision_denied(
     db, ticket_factory, user_factory
 ):
+    #  a user cannot close the ticket
+    #  unless the user is superuser
     ticket = ticket_factory.completed()
     user = user_factory()
     with pytest.raises(PermissionDenied):
