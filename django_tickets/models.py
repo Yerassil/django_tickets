@@ -66,6 +66,7 @@ class Ticket(models.Model):
             raise PermissionDenied()
 
     def complete(self, user):
+        print(user)
         if user == self.assigned_to:
             self.status = self.STATUS_COMPLETED
             self.save()

@@ -19,7 +19,7 @@ from django.urls import path, include
 from .views import TicketViewSet, ApproverViewSet
 from rest_framework_extensions.routers import ExtendedSimpleRouter
 from rest_framework.authtoken import views
-
+from django_tickets.views import IndexView
 
 router = ExtendedSimpleRouter()
 router.register(
@@ -35,5 +35,6 @@ urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    path('api/auth/', views.obtain_auth_token)
+    path('api/auth/', views.obtain_auth_token),
+    path('', IndexView.as_view(), name='index'),
 ]

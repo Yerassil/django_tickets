@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework import viewsets, status
 from rest_framework.mixins import RetrieveModelMixin, ListModelMixin
 from rest_framework_extensions.mixins import NestedViewSetMixin
+from django.views.generic.base import TemplateView
 
 
 # class TicketViewSet(viewsets.ModelViewSet):
@@ -99,3 +100,8 @@ class ApproverViewSet(NestedViewSetMixin,
         ticket, user = self._get_ticket_and_user(self.kwargs['pk'])
         ticket.approvers.remove(user)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class IndexView(TemplateView):
+
+    template_name = "index.html"
